@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>输入搜索联想</title>
+    <style type="text/css">
+        #app {
+            width: 400px;
+            height: 400px;
+            margin: 50px auto;
+        }
+        
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        
+        thead tr {
+            background: #4d83d6;
+            color: #fff;
+        }
+        
+        tr td {
+            width: 80px;
+            line-height: 30px;
+            text-align: center;
+        }
+        
+        tbody tr:nth-child(2n) {
+            background: #efefef;
+        }
+    </style>
+    <script type="text/javascript" src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- TODO：请在下面实现需求 -->
+        <span>搜索名字: </span>
+        <input placeholder="输入要搜索的名字" v-model="searchQuery" />
+        <table>
+            <thead>
+                <tr>
+                    <td v-for="col in columns">{{col | upstr}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="entry in searchData">
+                    <td v-for="col in columns">{{entry[col]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+<script>
+    // TODO：请在下面实现需求
+    new Vue({
+        el: "#app",
+        filters: {
+            upstr(str) {
+                const up = str[0].toUpperCase();
+                str = str.substring(1);
+                str = up + str;
+                return str;
+            }
+        },
+        computed: {
+            searchData() {
+                if (this.searchQuery.length == 0) {
+                    return this.data;
+                } else {
+                    return this.data.filter(e => {
+                        return e.name.toUpperCase().indexOf(this.searchQuery.toUpperCase()) != -1;
+                    })
+                }
+            }
+        },
+        // 注意：请勿修改 data 选项中的数据！！！
+        data: {
+            searchQuery: "",
+            columns: ["name", "gender", "age"],
+            data: [{
+                name: "rick",
+                gender: "male",
+                age: 21,
+            }, {
+                name: "demen",
+                gender: "male",
+                age: 26,
+            }, {
+                name: "Jack",
+                gender: "male",
+                age: 26,
+            }, {
+                name: "John",
+                gender: "female",
+                age: 20,
+            }, {
+                name: "Lucy",
+                gender: "female",
+                age: 16,
+            }, ],
+        },
+    });
+</script>
